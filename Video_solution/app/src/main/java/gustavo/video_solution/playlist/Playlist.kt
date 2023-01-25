@@ -1,4 +1,6 @@
-package gustavo.video_solution
+package gustavo.video_solution.playlist
+
+import gustavo.video_solution.R
 
 class Playlist (
     val id: String,

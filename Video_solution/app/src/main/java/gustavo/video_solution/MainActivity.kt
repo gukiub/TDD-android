@@ -2,6 +2,7 @@ package gustavo.video_solution
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import gustavo.video_solution.playlist.PlaylistFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

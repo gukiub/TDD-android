@@ -1,4 +1,4 @@
-package gustavo.video_solution
+package gustavo.video_solution.playlist
 
 
 import androidx.lifecycle.ViewModel

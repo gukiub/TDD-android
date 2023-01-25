@@ -1,13 +1,10 @@
-package gustavo.video_solution
+package gustavo.video_solution.playlist
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-
-import gustavo.video_solution.placeholder.PlaceholderContent.PlaceholderItem
 import gustavo.video_solution.databinding.PlaylistItemBinding
 
 class MyPlaylistRecyclerViewAdapter(
