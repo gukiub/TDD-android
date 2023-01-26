@@ -10,11 +10,13 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
+import java.lang.RuntimeException
 
 class PlaylistRepositoryShould : BaseUnitTest() {
 
     private val service: PlaylistService = mock()
     private val playlists = mock<List<Playlist>>()
+    private val exception = RuntimeException("something went wrong")
 
     @Test
     fun getsPlaylistsFromService() = runTest {
@@ -24,6 +26,23 @@ class PlaylistRepositoryShould : BaseUnitTest() {
 
         verify(service, times(1)).fetchPlaylists()
 
+    }
+
+    @Test
+    fun propagateErrors() = runTest {
+        val repository = mockFailureCase()
+
+        assertEquals(exception, repository.getPlaylists().first().exceptionOrNull())
+    }
+
+    private suspend fun mockFailureCase(): PlaylistRepository {
+        whenever(service.fetchPlaylists()).thenReturn(
+            flow {
+                emit(Result.failure(exception))
+            }
+        )
+
+        return PlaylistRepository(service)
     }
 
     @Test
