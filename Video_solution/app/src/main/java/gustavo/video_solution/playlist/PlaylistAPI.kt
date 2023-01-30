@@ -1,8 +1,9 @@
 package gustavo.video_solution.playlist
 
+import retrofit2.http.GET
+
 interface PlaylistAPI {
-    suspend fun fetchAllPlaylists() : List<Playlist> {
-        TODO("not implemented yet")
-    }
+    @GET("playlists")
+    suspend fun fetchAllPlaylists() : List<Playlist>
 
 }

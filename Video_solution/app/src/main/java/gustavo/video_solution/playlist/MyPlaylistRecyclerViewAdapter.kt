@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import gustavo.video_solution.R
 import gustavo.video_solution.databinding.PlaylistItemBinding
 
 class MyPlaylistRecyclerViewAdapter(
@@ -22,7 +23,7 @@ class MyPlaylistRecyclerViewAdapter(
 
         holder.playListName.text = item.name
         holder.playListCategory.text = item.category
-        holder.playListImage.setImageResource(item.image)
+        holder.playListImage.setImageResource(R.mipmap.playlist)
     }
 
     override fun getItemCount(): Int = values.size

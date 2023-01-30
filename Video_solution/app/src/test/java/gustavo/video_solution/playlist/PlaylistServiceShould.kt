@@ -7,7 +7,8 @@ import com.nhaarman.mockitokotlin2.whenever
 import gustavo.video_solution.utils.BaseUnitTest
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import java.lang.RuntimeException
 
@@ -18,7 +19,7 @@ class PlaylistServiceShould : BaseUnitTest() {
     private val playlists: List<Playlist> = mock()
 
     @Test
-    fun fetchPlaylistsFromAPI() = runTest {
+    fun fetchPlaylistsFromAPI() = runBlockingTest {
         service = PlaylistService(api)
 
         service.fetchPlaylists().first()
@@ -27,14 +28,14 @@ class PlaylistServiceShould : BaseUnitTest() {
     }
 
     @Test
-    fun convertValuesToFlowResultAndEmitsThem() = runTest {
+    fun convertValuesToFlowResultAndEmitsThem() = runBlockingTest {
         mockSuccessfulCase()
 
         assertEquals(Result.success(playlists), service.fetchPlaylists().first())
     }
 
     @Test
-    fun emitsErrorResultWhenNetworkFails() = runTest {
+    fun emitsErrorResultWhenNetworkFails() = runBlockingTest {
         mockErrorCase()
 
         assertEquals("Something went wrong", service.fetchPlaylists().first().exceptionOrNull()?.message)

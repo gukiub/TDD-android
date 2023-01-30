@@ -7,9 +7,9 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.adevinta.android.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
-import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
-import com.adevinta.android.barista.internal.matcher.DrawableMatcher.Companion.withDrawable
+import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
+import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.schibsted.spain.barista.internal.matcher.DrawableMatcher.Companion.withDrawable
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -48,6 +48,18 @@ class PlaylistFeature {
             .check(matches(withDrawable(R.mipmap.playlist)))
             .check(matches(isDisplayed()))
 
+    }
+
+    @Test
+    fun hidesLoader() {
+        Thread.sleep(4000)
+
+        assertDisplayed(R.id.loader)
+    }
+
+    @Test
+    fun displaysLoaderWhileFetchingThePlaylists() {
+        assertDisplayed(R.id.loader)
     }
 
     fun nthChildOf(parentMatcher: Matcher<View>, childPosition: Int): Matcher<View> {

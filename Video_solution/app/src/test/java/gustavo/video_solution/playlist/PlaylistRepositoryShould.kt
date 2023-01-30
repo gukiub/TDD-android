@@ -8,7 +8,7 @@ import gustavo.video_solution.utils.BaseUnitTest
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import java.lang.RuntimeException
 
@@ -19,7 +19,7 @@ class PlaylistRepositoryShould : BaseUnitTest() {
     private val exception = RuntimeException("something went wrong")
 
     @Test
-    fun getsPlaylistsFromService() = runTest {
+    fun getsPlaylistsFromService() = runBlockingTest {
         val repository = PlaylistRepository(service)
 
         repository.getPlaylists()
@@ -29,7 +29,7 @@ class PlaylistRepositoryShould : BaseUnitTest() {
     }
 
     @Test
-    fun propagateErrors() = runTest {
+    fun propagateErrors() = runBlockingTest {
         val repository = mockFailureCase()
 
         assertEquals(exception, repository.getPlaylists().first().exceptionOrNull())
@@ -38,7 +38,7 @@ class PlaylistRepositoryShould : BaseUnitTest() {
     private suspend fun mockFailureCase(): PlaylistRepository {
         whenever(service.fetchPlaylists()).thenReturn(
             flow {
-                emit(Result.failure(exception))
+                emit(Result.failure<List<Playlist>>(exception))
             }
         )
 
@@ -46,7 +46,7 @@ class PlaylistRepositoryShould : BaseUnitTest() {
     }
 
     @Test
-    fun emitPlaylistsFromService() = runTest {
+    fun emitPlaylistsFromService() = runBlockingTest {
         val repository = mockSuccessfulCase()
 
         assertEquals(playlists, repository.getPlaylists().first().getOrNull())
