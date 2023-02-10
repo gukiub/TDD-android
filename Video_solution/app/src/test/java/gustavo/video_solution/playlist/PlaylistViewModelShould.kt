@@ -44,17 +44,6 @@ class PlaylistViewModelShould: BaseUnitTest() {
         assertEquals(exception, viewModel.playlists.getValueForTest()!!.exceptionOrNull())
     }
 
-    private fun mockErrorCase(): PlayListViewModel {
-        runBlocking {
-            whenever(repository.getPlaylists()).thenReturn(
-                flow {
-                    emit(Result.failure<List<Playlist>>(exception))
-                }
-            )
-        }
-        return PlayListViewModel(repository)
-    }
-
     @Test
     fun showSpinnerWhileLoading() {
         val viewModel = mockSuccessfulCase()
@@ -63,6 +52,26 @@ class PlaylistViewModelShould: BaseUnitTest() {
             viewModel.playlists.getValueForTest()
 
             assertEquals(true, values[0])
+        }
+    }
+
+    @Test
+    fun closeLoaderAfterPlaylistsLoad() = runBlockingTest{
+        val viewModel = mockSuccessfulCase()
+
+        viewModel.loader.captureValues {
+            viewModel.playlists.getValueForTest()
+            assertEquals(false, values.last())
+        }
+    }
+
+    @Test
+    fun closeLoaderAfterError() = runBlockingTest{
+        val viewModel = mockErrorCase()
+
+        viewModel.loader.captureValues {
+            viewModel.playlists.getValueForTest()
+            assertEquals(false, values.last())
         }
     }
 
@@ -75,6 +84,17 @@ class PlaylistViewModelShould: BaseUnitTest() {
             )
         }
 
+        return PlayListViewModel(repository)
+    }
+
+    private fun mockErrorCase(): PlayListViewModel {
+        runBlocking {
+            whenever(repository.getPlaylists()).thenReturn(
+                flow {
+                    emit(Result.failure<List<Playlist>>(exception))
+                }
+            )
+        }
         return PlayListViewModel(repository)
     }
 }

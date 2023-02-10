@@ -1,6 +1,7 @@
 package gustavo.video_solution.playlist
 
 import androidx.lifecycle.*
+import kotlinx.coroutines.flow.onEach
 
 class PlayListViewModel(
     private val repository: PlaylistRepository
@@ -11,6 +12,10 @@ class PlayListViewModel(
     val playlists = liveData {
         loader.postValue(true)
 
-        emitSource(repository.getPlaylists().asLiveData())
+        emitSource(repository.getPlaylists()
+            .onEach {
+                loader.postValue(false)
+            }
+            .asLiveData())
     }
 }

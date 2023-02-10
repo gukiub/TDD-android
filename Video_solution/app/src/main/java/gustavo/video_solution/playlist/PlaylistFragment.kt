@@ -33,6 +33,7 @@ class PlaylistFragment : Fragment() {
         viewModel.loader.observe(viewLifecycleOwner) { loading ->
             when(loading) {
                 true -> loader.visibility = View.VISIBLE
+                else -> loader.visibility = View.GONE
             }
         }
 
