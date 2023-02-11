@@ -11,7 +11,6 @@ import com.gustavo.pokedex.PokemonViewModel
 import com.gustavo.pokedex.PokemonViewModelFactory
 import com.gustavo.pokedex.databinding.FragmentPokedexListBinding
 import com.gustavo.pokedex.model.Pokemon
-import com.gustavo.pokedex.model.PokemonType
 
 class PokedexFragment : Fragment() {
 
@@ -44,7 +43,8 @@ class PokedexFragment : Fragment() {
     private fun loadRecyclerView(pokemons: List<Pokemon?>) {
         with(binding) {
             list.layoutManager = LinearLayoutManager(context)
-            list.adapter = PokemonAdapter(pokemons)
+            list.adapter = PokemonAdapter(pokemons, requireContext())
+            binding.loading.visibility = View.GONE
         }
     }
 }

@@ -9,13 +9,13 @@ class PokemonViewModel : ViewModel() {
     var pokemons = MutableLiveData<List<Pokemon?>>()
 
     init {
-        Thread(Runnable {
+        Thread {
             loadPokemons()
-        }).start()
+        }.start()
     }
 
     private fun loadPokemons() {
-        val pokemonsApiResult = PokemonRepository.listPokemons()
+        val pokemonsApiResult = PokemonRepository.listPokemons(20)
 
         pokemonsApiResult?.results?.let {
             pokemons.postValue(it.map { pokemonResult ->
